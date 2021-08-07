@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Document Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center align-items-center">
+        <h1>Welcome to the Great Number Game!</h1>
+        <p>I am thinking of a number between 1 and 100</p>
+
+        {% if session['accuracy'] == 'high'%}
+            <div class="col bg-danger">
+                <h2> Too High!</h2>
+            </div>
+        {% elif session['accuracy'] == 'low' %}
+            <div class="col bg-danger">
+                <h2> Too Low!</h2>
+            </div>
+        {% elif session['accuracy'] == 'correct' %}
+            <div class="col bg-success">
+                <h2> You got it Right!</h2>
+                <form action="/destroy_session" method="post">
+                    <button class="btn btn-danger">Play Again!</button>
+                </form>
+            </div>  
+        {% elif session['accuracy'] == 'out' %}
+            <div class="col bg-warning">
+                <h2> Not in Range!</h2>
+            </div>  
+        {% endif %}
+
+        {% if session['accuracy'] != 'correct' %}
+            <div class="row bg-dark p-3">
+                <form action="/compare" method="post">
+                    <p class="text-warning">Take a guess!</p>
+                    <input type="text" name="guess">
+                    <button class="btn btn-warning">Submit</button>
+                </form>
+            </div>
+            <p>{{ session['rand_num'] }}</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
